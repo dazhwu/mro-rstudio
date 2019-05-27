@@ -50,7 +50,7 @@ RUN ln -s /opt/microsoft/ropen/${MRO_VERSION_MAJOR}.${MRO_VERSION_MINOR}.${MRO_V
     \nif(is.na(Sys.getenv("HTTR_LOCALHOST", unset=NA))) { \
     \n  options(httr_oob_default = TRUE) \
     \n}' >> /etc/R/Rprofile.site \
-  && echo "PATH=${PATH}" >> /etc/R/Renviron \
+  && echo "PATH=${PATH}" >> /etc/R/Renviron
 
 ## Prevent rstudio from deciding to use /usr/bin/R if a user apt-get installs a package
 RUN echo 'rsession-which-r=/usr/bin/R' >> /etc/rstudio/rserver.conf \

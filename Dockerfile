@@ -29,6 +29,15 @@ RUN apt-get update \
   lsb-release \
   psmisc \
   sudo \
+#   file \
+#   libcurl4-openssl-dev \
+#   libedit2 \
+#   libssl-dev \
+#   procps \
+#   python-setuptools \
+#   libobjc-6-dev \
+#   libobjc4 \
+#   libgc1c2 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/ \
   && wget -q $RSTUDIO_URL \
@@ -109,6 +118,7 @@ COPY add_shiny.sh /etc/cont-init.d/add
 COPY userconf.sh /etc/cont-init.d/userconf
 COPY disable_auth_rserver.conf /etc/rstudio/disable_auth_rserver.conf
 COPY pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+COPY demo.R ${HOME}/work
 
 EXPOSE 8787
 

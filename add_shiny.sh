@@ -15,7 +15,7 @@ if [ "$ADD" == "shiny" ]; then
     gdebi -n ss-latest.deb && \
     rm -f version.txt ss-latest.deb && \
     install2.r -e --skipinstalled shiny rmarkdown && \
-    cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/ && \
+    cp -R /opt/microsoft/ropen/${MRO_VERSION_MAJOR}.${MRO_VERSION_MINOR}.${MRO_VERSION_BUGFIX}/lib64/R/library/shiny/examples/* /srv/shiny-server/ && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /var/log/shiny-server && \
     chown shiny.shiny /var/log/shiny-server && \
@@ -23,7 +23,7 @@ if [ "$ADD" == "shiny" ]; then
     cd /etc/services.d/shiny-server && \
     echo '#!/bin/bash' > run && echo 'exec shiny-server > /var/log/shiny-server.log' >> run && \
     chmod +x run && \
-    adduser rstudio shiny && \
+    adduser ${CT_USER} shiny && \
     cd /
 fi
 

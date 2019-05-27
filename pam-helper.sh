@@ -8,4 +8,4 @@ set -o nounset
 
 IFS='' read -r password
 
-[ "${USER}" = "${1}" ] && [ "${PASSWORD}" = "${password}" ]
+[ "${CT_USER}" = "${1}" ] && [ "${PASSWORD}" = "${password}" ]

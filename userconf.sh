@@ -1,15 +1,15 @@
 #!/usr/bin/with-contenv bash
 
 ## Set defaults for environmental variables in case they are undefined
-USER=${USER:=docker}
+USER=${USER:=${CT_USER}}
 PASSWORD=${PASSWORD:=docker}
-USERID=${USERID:=1000}
-GROUPID=${GROUPID:=100}
+USERID=${USERID:=${CT_UID}}
+GROUPID=${GROUPID:=${CT_GID}}
 ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
 
 ## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> /usr/lib/R/etc/Renviron
+echo "PATH=${PATH}" >> /etc/R/Renviron
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -21,20 +21,18 @@ then
 	echo "USER=$USER" >> /etc/environment
 fi
 
-
-
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then
 	echo "Skipping authentication as requested"
-elif [ "$PASSWORD" == "docker" ]
-then
-    printf "\n\n"
-    tput bold
-    printf "\e[31mERROR\e[39m: You must set a unique PASSWORD (not 'docker') first! e.g. run with:\n"
-    printf "docker run -e PASSWORD=\e[92m<YOUR_PASS>\e[39m -p 8787:8787 blueogive/mro-rstudio\n"
-    tput sgr0
-    printf "\n\n"
-    exit 1
+# elif [ "$PASSWORD" == "docker" ]
+# then
+#     printf "\n\n"
+#     tput bold
+#     printf "\e[31mERROR\e[39m: You must set a unique PASSWORD (not 'docker') first! e.g. run with:\n"
+#     printf "docker run -e PASSWORD=\e[92m<YOUR_PASS>\e[39m -p 8787:8787 blueogive/mro-rstudio\n"
+#     tput sgr0
+#     printf "\n\n"
+#     exit 1
 fi
 
 if [ "$USERID" -lt 1000 ]
@@ -51,27 +49,27 @@ if [ "$USERID" -lt 1000 ]
     fi
 fi
 
-if [ "$USERID" -ne 1000 ]
-## Configure user with a different USERID if requested.
-  then
-    echo "deleting user docker"
-    userdel docker
-    echo "creating new $USER with UID $USERID"
-    useradd -m $USER -u $USERID
-    mkdir /home/$USER
-    chown -R $USER /home/$USER
-    usermod -a -G staff $USER
-elif [ "$USER" != "docker" ]
-  then
-    ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
-    cp -r /home/docker /home/$USER
-    ## RENAME the user
-    usermod -l $USER -d /home/$USER docker
-    groupmod -n $USER docker
-    usermod -a -G staff $USER
-    chown -R $USER:$USER /home/$USER
-    echo "USER is now $USER"
-fi
+# if [ "$USERID" -ne 1000 ]
+# ## Configure user with a different USERID if requested.
+#   then
+#     echo "deleting user docker"
+#     userdel docker
+#     echo "creating new $USER with UID $USERID"
+#     useradd -m $USER -u $USERID
+#     mkdir /home/$USER
+#     chown -R $USER /home/$USER
+#     usermod -a -G staff $USER
+# elif [ "$USER" != "docker" ]
+#   then
+#     ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
+#     cp -r /home/docker /home/$USER
+#     ## RENAME the user
+#     usermod -l $USER -d /home/$USER docker
+#     groupmod -n $USER docker
+#     usermod -a -G staff $USER
+#     chown -R $USER:$USER /home/$USER
+#     echo "USER is now $USER"
+# fi
 
 if [ "$GROUPID" -ne 100 ]
 ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
@@ -99,5 +97,5 @@ if [ "$UMASK" -ne 022 ]
 fi
 
 ## add these to the global environment so they are avialable to the RStudio user
-echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> /etc/R/Renviron.site
-echo "HTTR_PORT=$HTTR_PORT" >> /etc/R/Renviron.site
+# echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> /etc/R/Renviron.site
+# echo "HTTR_PORT=$HTTR_PORT" >> /etc/R/Renviron.site

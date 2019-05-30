@@ -23,14 +23,8 @@ RUN apt-get update \
   && dpkg -i rstudio-server-*-amd64.deb \
   && rm rstudio-server-*-amd64.deb
 
-## The version of pandoc and friends shipped with RStudio is newer than
-## the versions distributed with Ubuntu, so symlink the newer version for
-## use system-wide.
-RUN mv /usr/bin/pandoc /usr/bin/pandoc_orig \
-  && mv /usr/bin/pandoc-citeproc /usr/bin/pandoc-citeproc_orig \
-  && ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/bin \
-  && ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/bin \
-  && mkdir -p /opt/pandoc/templates \
+## Install pandoc-templates.
+RUN mkdir -p /opt/pandoc/templates \
   && cd /opt/pandoc/templates \
   && wget -q https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz \
   && tar xzf ${PANDOC_TEMPLATES_VERSION}.tar.gz \

@@ -44,7 +44,10 @@ RUN ln -s /opt/microsoft/ropen/${MRO_VERSION_MAJOR}.${MRO_VERSION_MINOR}.${MRO_V
     \nif(is.na(Sys.getenv("HTTR_LOCALHOST", unset=NA))) { \
     \n  options(httr_oob_default = TRUE) \
     \n}' >> /etc/R/Rprofile.site \
-  && echo "PATH=${PATH}" >> /etc/R/Renviron
+  && echo "PATH=${PATH}" >> /etc/R/Renviron \
+  ## Favor the system version of Pandoc over the broken version shipped with
+  ## RStudio
+  && echo 'Sys.setenv(RSTUDIO_PANDOC="/usr/bin/pandoc")' >> /etc/R/Rprofile.site
 
 ## Prevent rstudio from deciding to use /usr/bin/R if a user apt-get installs a package
 RUN echo 'rsession-which-r=/usr/bin/R' >> /etc/rstudio/rserver.conf \
@@ -71,7 +74,6 @@ RUN echo 'rsession-which-r=/usr/bin/R' >> /etc/rstudio/rserver.conf \
   && mkdir ${HOME}/kitematic \
   && chown -R ${CT_USER}:${CT_GID} ${HOME}/kitematic \
   && chown -R ${CT_USER}:${CT_GID} ${HOME}/bin \
-  && chown -R ${CT_USER}:${CT_GID} ${HOME}/.TinyTeX \
   && chown -R ${CT_USER}:${CT_GID} ${HOME}/.rstudio \
   && chown -R ${CT_USER}:${CT_GID} ${HOME}/work \
   && rm ${HOME}/.wget-hsts

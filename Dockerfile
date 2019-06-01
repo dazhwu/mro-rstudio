@@ -1,4 +1,4 @@
-FROM blueogive/mro-docker:20190526
+FROM blueogive/mro-docker:20190531
 
 ENV RSTUDIO_VERSION=1.2.1335 \
     S6_VERSION=v1.22.1.0 \

@@ -60,7 +60,7 @@ RUN echo 'rsession-which-r=/usr/bin/R' >> /etc/rstudio/rserver.conf \
   && mkdir -p /etc/services.d/rstudio \
   && echo '#!/usr/bin/with-contenv bash \
           \n## load /etc/environment vars first: \
-  		  \n for line in $( cat /etc/environment ) ; do export $line ; done \
+          \n for line in $( cat /etc/environment ) ; do export $line ; done \
           \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0' \
           > /etc/services.d/rstudio/run \
   && echo '#!/bin/bash \
@@ -97,12 +97,12 @@ ARG BUILD_DATE=${BUILD_DATE}
 # Add image metadata
 LABEL org.label-schema.license="https://opensource.org/licenses/MIT" \
     org.label-schema.vendor="Dockerfile provided by Mark Coggeshall, influenced by rocker/rstudio" \
-	org.label-schema.name="RStudio-Server paired with Microsoft R Open" \
-	org.label-schema.description="Docker images of RStudio-Server paired with Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \
-	org.label-schema.vcs-url=${VCS_URL} \
-	org.label-schema.vcs-ref=${VCS_REF} \
-	org.label-schema.build-date=${BUILD_DATE} \
-	maintainer="Mark Coggeshall <mark.coggeshall@gmail.com>"
+  org.label-schema.name="RStudio-Server paired with Microsoft R Open" \
+  org.label-schema.description="Docker images of RStudio-Server paired with Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \
+  org.label-schema.vcs-url=${VCS_URL} \
+  org.label-schema.vcs-ref=${VCS_REF} \
+  org.label-schema.build-date=${BUILD_DATE} \
+  maintainer="Mark Coggeshall <mark.coggeshall@gmail.com>"
 
 WORKDIR ${HOME}/work
 

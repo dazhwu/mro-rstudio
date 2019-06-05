@@ -106,4 +106,7 @@ LABEL org.label-schema.license="https://opensource.org/licenses/MIT" \
 
 WORKDIR ${HOME}/work
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 0755 /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "/bin/bash", "/usr/local/bin/entrypoint.sh" ]
 CMD ["/init"]

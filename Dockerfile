@@ -1,7 +1,7 @@
 FROM blueogive/mro-docker:20190710
 
-ENV RSTUDIO_VERSION=1.2.1335 \
-    S6_VERSION=v1.22.1.0 \
+ENV RSTUDIO_VERSION=1.3.959 \
+    S6_VERSION=v2.0.0.1 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     PANDOC_TEMPLATES_VERSION=2.7.2 \
     PATH=/usr/lib/rstudio-server/bin:$PATH
@@ -17,6 +17,7 @@ RUN apt-get update \
   lsb-release \
   psmisc \
   sudo \
+  tcl\
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/ \
   && wget -q $RSTUDIO_URL \

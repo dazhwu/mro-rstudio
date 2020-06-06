@@ -6,7 +6,7 @@ ENV RSTUDIO_VERSION=1.3.959 \
     PANDOC_TEMPLATES_VERSION=2.7.2 \
     PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
-
+ARG DEBIAN_FRONTEND=noninteractive
 USER root
 
 RUN apt-get update \
